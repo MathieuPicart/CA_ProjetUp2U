@@ -16,8 +16,8 @@ Scénario Client :
 - Création compte Client
 - Connexion Client
 - Modification Client
-	LOCATION :
+  LOCATION :
 - Sélection d’un appareil (Modèle / Couleur / Connectivité /Mémoire)
 - Sélection Assurance
 - Programmer Livraison
-- VALIDER
+  VALIDER
