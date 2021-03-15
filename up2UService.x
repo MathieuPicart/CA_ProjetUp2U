@@ -16,13 +16,13 @@ struct date {
 struct adresse {
 	int numeroRue;
     int codePostal;
-	char * rue;
+	char[30] rue;
 };
 
 struct modele {
-	char * nom;
+	char[15] nom;
 	float prix;
-	char * description;
+	char[255] description;
 };
 
 struct appareil {
@@ -39,39 +39,40 @@ struct location {
 };
 
 struct assurance {
-	char * titre;
+	char[15] titre;
 	float prix;
-	char * description;
+	char[255] description;
 };
 
 struct client {
-    char * nom;
-    char * prenom;
-    char * login;
-    char * mdp;
+    char[15] nom;
+    char[15] prenom;
     adresse adresse;
-    char * coordonneeBanc;
+    char[100] coordonneeBanc;
 }
 
-typedef struct mobile liste_mobiles[nbMaxMobiles];
-typedef struct assurance liste_assurances[nbMaxAssurances];
-typedef struct commande liste_commandes[nbMaxCommandes];
+
+struct p_create_client { char[15] nom; char[15] prenom; adresse adresse; char[30] coordonneeBanc; };
+struct p_set_client { int id; char[15] nom; char[15] prenom; adresse adresse; char[30] coordonneeBanc; };
+struct p_params_mobile { couleur couleur; connectivite connectivite; memoire memoire; };
+struct p_location_mobile { couleur couleur; connectivite connectivite; memoire memoire; };
 
 
 program UP2USERVICE {
 	version UP2USERVICE_V_1 {
 		void INIT() = 1;
-        int CREATE_CLIENT(client) = 2;
-        int SET_CLIENT(int, client) = 3;
+        int CREATE_CLIENT(p_create_client) = 2;
+        int SET_CLIENT(p_set_client) = 3;
         int INIT_LOCATION() = 4;
         int GET_CLIENTS() = 5;
-        int SET_LOCATION_CLIENT(client) = 6;
-        int GET_MOBILES() = 7;
-        int GET_MOBILE_PARAMS(mobile) = 8;
-        int SET_PARAMS_MOBILE() = 9;
-        int SET_LOCATION_MOBILE(mobile) = 10;
-        int GET_ASSURANCES() = 11;
-        int SET_LOCATION_ASSURANCES() = 12;
-        int CREATE_LIVRAISON(location) = 13;
+        client GET_CLIENT(int) = 6;
+        int SET_LOCATION_CLIENT(client) = 7;
+        int GET_MOBILES() = 8;
+        int GET_MOBILE_PARAMS() = 9;
+        int SET_PARAMS_MOBILE(p_params_mobile) = 10;
+        int SET_LOCATION_MOBILE(mobile) = 11;
+        int GET_ASSURANCES() = 12;
+        int SET_LOCATION_ASSURANCES() = 13;
+        int CREATE_LIVRAISON(location) = 14;
     } = 1;
 } = 0x23456789;
