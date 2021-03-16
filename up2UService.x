@@ -1,3 +1,5 @@
+#define MAX 5
+
 enum couleur { ROUGE, VERT, NOIR, BLANC };
 typedef enum couleur couleur;
 
@@ -16,13 +18,13 @@ struct date {
 struct adresse {
 	int numeroRue;
     int codePostal;
-	char[30] rue;
+	char rue[30];
 };
 
 struct modele {
-	char[15] nom;
+	char nom[15];
 	float prix;
-	char[255] description;
+	char description[255];
 };
 
 struct appareil {
@@ -39,40 +41,52 @@ struct location {
 };
 
 struct assurance {
-	char[15] titre;
+	char titre[15];
 	float prix;
-	char[255] description;
+	char description[255];
 };
 
 struct client {
-    char[15] nom;
-    char[15] prenom;
+    char nom[15];
+    char prenom[15];
     adresse adresse;
-    char[100] coordonneeBanc;
-}
+    char coordonneeBanc[100];
+};
+
+struct clients {
+    client clients[MAX];
+    int nbClients;
+};
+  
+struct assurances {
+    assurance assurances[MAX];
+    int nbAssurances;
+} ;
 
 
-struct p_create_client { char[15] nom; char[15] prenom; adresse adresse; char[30] coordonneeBanc; };
-struct p_set_client { int id; char[15] nom; char[15] prenom; adresse adresse; char[30] coordonneeBanc; };
+struct p_create_client { char nom[15]; char prenom[15]; adresse adresse; char coordonneeBanc[30]; };
+struct p_set_client { int id; char nom[15]; char prenom[15]; adresse adresse; char coordonneeBanc[30]; };
 struct p_params_mobile { couleur couleur; connectivite connectivite; memoire memoire; };
-struct p_location_mobile { couleur couleur; connectivite connectivite; memoire memoire; };
+struct p_location_mobile { location location; appareil appareil; };
+struct p_location_assurance {location location; assurance assurance; };
+struct p_create_livraison {location location; date date;};
 
 
 program UP2USERVICE {
 	version UP2USERVICE_V_1 {
 		void INIT() = 1;
-        int CREATE_CLIENT(p_create_client) = 2;
-        int SET_CLIENT(p_set_client) = 3;
+        client CREATE_CLIENT(p_create_client) = 2;
+        client SET_CLIENT(p_set_client) = 3;
         int INIT_LOCATION() = 4;
-        int GET_CLIENTS() = 5;
+        clients GET_CLIENTS() = 5;
         client GET_CLIENT(int) = 6;
-        int SET_LOCATION_CLIENT(client) = 7;
-        int GET_MOBILES() = 8;
-        int GET_MOBILE_PARAMS() = 9;
-        int SET_PARAMS_MOBILE(p_params_mobile) = 10;
-        int SET_LOCATION_MOBILE(mobile) = 11;
-        int GET_ASSURANCES() = 12;
-        int SET_LOCATION_ASSURANCES() = 13;
-        int CREATE_LIVRAISON(location) = 14;
+        location SET_LOCATION_CLIENT(client) = 7;
+        mobile GET_MOBILES() = 8;
+        p_params_mobile GET_MOBILE_PARAMS() = 9;
+        p_params_mobile SET_PARAMS_MOBILE(p_params_mobile) = 10;
+        location SET_LOCATION_MOBILE(p_location_mobile) = 11;
+        assurances GET_ASSURANCES() = 12;
+        location SET_LOCATION_ASSURANCES(p_location_assurance) = 13;
+        p_create_livraison CREATE_LIVRAISON(p_create_livraison) = 14;
     } = 1;
 } = 0x23456789;
