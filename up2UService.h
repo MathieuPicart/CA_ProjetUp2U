@@ -156,26 +156,26 @@ typedef struct p_create_livraison p_create_livraison;
 extern  void * init_1(void *, CLIENT *);
 extern  void * init_1_svc(void *, struct svc_req *);
 #define CREATE_CLIENT 2
-extern  client * create_client_1(p_create_client *, CLIENT *);
-extern  client * create_client_1_svc(p_create_client *, struct svc_req *);
+extern  s_client * create_client_1(p_create_client *, CLIENT *);
+extern  s_client * create_client_1_svc(p_create_client *, struct svc_req *);
 #define SET_CLIENT 3
-extern  client * set_client_1(p_set_client *, CLIENT *);
-extern  client * set_client_1_svc(p_set_client *, struct svc_req *);
+extern  s_client * set_client_1(p_set_client *, CLIENT *);
+extern  s_client * set_client_1_svc(p_set_client *, struct svc_req *);
 #define INIT_LOCATION 4
 extern  int * init_location_1(void *, CLIENT *);
 extern  int * init_location_1_svc(void *, struct svc_req *);
 #define GET_CLIENTS 5
-extern  clients * get_clients_1(void *, CLIENT *);
-extern  clients * get_clients_1_svc(void *, struct svc_req *);
+extern  s_clients * get_clients_1(void *, CLIENT *);
+extern  s_clients * get_clients_1_svc(void *, struct svc_req *);
 #define GET_CLIENT 6
-extern  client * get_client_1(int *, CLIENT *);
-extern  client * get_client_1_svc(int *, struct svc_req *);
+extern  s_client * get_client_1(int *, CLIENT *);
+extern  s_client * get_client_1_svc(int *, struct svc_req *);
 #define SET_LOCATION_CLIENT 7
-extern  location * set_location_client_1(client *, CLIENT *);
-extern  location * set_location_client_1_svc(client *, struct svc_req *);
+extern  s_location * set_location_client_1(s_client *, CLIENT *);
+extern  s_location * set_location_client_1_svc(s_client *, struct svc_req *);
 #define GET_MOBILES 8
-extern  mobile * get_mobiles_1(void *, CLIENT *);
-extern  mobile * get_mobiles_1_svc(void *, struct svc_req *);
+extern  s_modele * get_mobiles_1(void *, CLIENT *);
+extern  s_modele * get_mobiles_1_svc(void *, struct svc_req *);
 #define GET_MOBILE_PARAMS 9
 extern  p_params_mobile * get_mobile_params_1(void *, CLIENT *);
 extern  p_params_mobile * get_mobile_params_1_svc(void *, struct svc_req *);
@@ -183,14 +183,14 @@ extern  p_params_mobile * get_mobile_params_1_svc(void *, struct svc_req *);
 extern  p_params_mobile * set_params_mobile_1(p_params_mobile *, CLIENT *);
 extern  p_params_mobile * set_params_mobile_1_svc(p_params_mobile *, struct svc_req *);
 #define SET_LOCATION_MOBILE 11
-extern  location * set_location_mobile_1(p_location_mobile *, CLIENT *);
-extern  location * set_location_mobile_1_svc(p_location_mobile *, struct svc_req *);
+extern  s_location * set_location_mobile_1(p_location_mobile *, CLIENT *);
+extern  s_location * set_location_mobile_1_svc(p_location_mobile *, struct svc_req *);
 #define GET_ASSURANCES 12
-extern  assurances * get_assurances_1(void *, CLIENT *);
-extern  assurances * get_assurances_1_svc(void *, struct svc_req *);
+extern  s_assurances * get_assurances_1(void *, CLIENT *);
+extern  s_assurances * get_assurances_1_svc(void *, struct svc_req *);
 #define SET_LOCATION_ASSURANCES 13
-extern  location * set_location_assurances_1(p_location_assurance *, CLIENT *);
-extern  location * set_location_assurances_1_svc(p_location_assurance *, struct svc_req *);
+extern  s_location * set_location_assurances_1(p_location_assurance *, CLIENT *);
+extern  s_location * set_location_assurances_1_svc(p_location_assurance *, struct svc_req *);
 #define CREATE_LIVRAISON 14
 extern  p_create_livraison * create_livraison_1(p_create_livraison *, CLIENT *);
 extern  p_create_livraison * create_livraison_1_svc(p_create_livraison *, struct svc_req *);
