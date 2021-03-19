@@ -52,7 +52,15 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 	
 	nb_modeles = 3;
 
+	strcpy(listeAssurances[0].titre, "Samsung Care+ Paiement Unique");
+	strcpy(listeAssurances[0].description, "Description");
+	listeAssurances[0].prix = 89.00;
 
+	strcpy(listeAssurances[0].titre, "Samsung Care+ Souscription");
+	strcpy(listeAssurances[0].description, "Description");
+	listeAssurances[0].prix = 4.99;
+
+	nb_assurances = 2;		
 
 	return (void *) &result;
 }
