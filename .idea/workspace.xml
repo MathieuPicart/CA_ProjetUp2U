@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6585048-2724-4421-8d62-09fb82cd0768" name="Default Changelist" comment="commit">
-      <change beforePath="$PROJECT_DIR$/up2UService_server.c" beforeDir="false" afterPath="$PROJECT_DIR$/up2UService_server.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile.up2UService" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/up2UService.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/up2UService.x" beforeDir="false" afterPath="$PROJECT_DIR$/up2UService.x" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/up2UService_client.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/up2UService_clnt.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/up2UService_server.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/up2UService_svc.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/up2UService_xdr.c" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

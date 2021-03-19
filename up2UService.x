@@ -34,10 +34,11 @@ struct s_appareil {
     e_memoire memoire;
 };
 
-struct s_location {
-    s_client client;
-	s_appareil appareil;
-    s_assurance assurance;
+struct s_client {
+    char nom[15];
+    char prenom[15];
+    s_adresse adresse;
+    char coordonneeBanc[100];
 };
 
 struct s_assurance {
@@ -46,22 +47,11 @@ struct s_assurance {
 	char description[255];
 };
 
-struct s_client {
-    char nom[15];
-    char prenom[15];
-    s_adresse adresse;
-    char coordonneeBanc[100];
+struct s_location {
+    s_client client;
+	s_appareil appareil;
+    s_assurance assurance;
 };
-
-struct s_clients {
-    s_client clients[MAX];
-    int nbClients;
-};
-  
-struct s_assurances {
-    s_assurance assurances[MAX];
-    int nbAssurances;
-} ;
 
 
 struct p_create_client { char nom[15]; char prenom[15]; int numeroRue; int codePostal; char rue[30]; char coordonneeBanc[30]; };

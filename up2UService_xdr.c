@@ -129,15 +129,21 @@ xdr_s_appareil (XDR *xdrs, s_appareil *objp)
 }
 
 bool_t
-xdr_s_location (XDR *xdrs, s_location *objp)
+xdr_s_client (XDR *xdrs, s_client *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_s_client (xdrs, &objp->client))
+	int i;
+	 if (!xdr_vector (xdrs, (char *)objp->nom, 15,
+		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
-	 if (!xdr_s_appareil (xdrs, &objp->appareil))
+	 if (!xdr_vector (xdrs, (char *)objp->prenom, 15,
+		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
-	 if (!xdr_s_assurance (xdrs, &objp->assurance))
+	 if (!xdr_s_adresse (xdrs, &objp->adresse))
+		 return FALSE;
+	 if (!xdr_vector (xdrs, (char *)objp->coordonneeBanc, 100,
+		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
 	return TRUE;
 }
@@ -160,49 +166,15 @@ xdr_s_assurance (XDR *xdrs, s_assurance *objp)
 }
 
 bool_t
-xdr_s_client (XDR *xdrs, s_client *objp)
+xdr_s_location (XDR *xdrs, s_location *objp)
 {
 	register int32_t *buf;
 
-	int i;
-	 if (!xdr_vector (xdrs, (char *)objp->nom, 15,
-		sizeof (char), (xdrproc_t) xdr_char))
+	 if (!xdr_s_client (xdrs, &objp->client))
 		 return FALSE;
-	 if (!xdr_vector (xdrs, (char *)objp->prenom, 15,
-		sizeof (char), (xdrproc_t) xdr_char))
+	 if (!xdr_s_appareil (xdrs, &objp->appareil))
 		 return FALSE;
-	 if (!xdr_s_adresse (xdrs, &objp->adresse))
-		 return FALSE;
-	 if (!xdr_vector (xdrs, (char *)objp->coordonneeBanc, 100,
-		sizeof (char), (xdrproc_t) xdr_char))
-		 return FALSE;
-	return TRUE;
-}
-
-bool_t
-xdr_s_clients (XDR *xdrs, s_clients *objp)
-{
-	register int32_t *buf;
-
-	int i;
-	 if (!xdr_vector (xdrs, (char *)objp->clients, 5,
-		sizeof (s_client), (xdrproc_t) xdr_s_client))
-		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->nbClients))
-		 return FALSE;
-	return TRUE;
-}
-
-bool_t
-xdr_s_assurances (XDR *xdrs, s_assurances *objp)
-{
-	register int32_t *buf;
-
-	int i;
-	 if (!xdr_vector (xdrs, (char *)objp->assurances, 5,
-		sizeof (s_assurance), (xdrproc_t) xdr_s_assurance))
-		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->nbAssurances))
+	 if (!xdr_s_assurance (xdrs, &objp->assurance))
 		 return FALSE;
 	return TRUE;
 }
