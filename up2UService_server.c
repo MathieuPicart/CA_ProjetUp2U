@@ -26,14 +26,14 @@ create_client_1_svc(p_create_client *argp, struct svc_req *rqstp)
 	static client  result;
 
 	strcpy(client.prenom, newClient->prenom);
-        strcpy(client.nom, newClient->nom);
-        strcpy(client.adresse.rue, newClient->adresse.rue);
-        strcpy(client.adresse.numeroRue, newClient->adresse.numeroRue);
-        strcpy(client.adresse.codePostal, newClient->adresse.codePostal);
-        strcpy(client.coordonneeBanc, newClient->coordonneeBanc);
+    strcpy(client.nom, newClient->nom);
+    strcpy(client.adresse.rue, newClient->adresse.rue);
+    strcpy(client.adresse.numeroRue, newClient->adresse.numeroRue);
+    strcpy(client.adresse.codePostal, newClient->adresse.codePostal);
+    strcpy(client.coordonneeBanc, newClient->coordonneeBanc);
 
-        listeClients.clients[listeClients.nbClients] = client;
-        listeClients.nbClients++;
+    listeClients.clients[listeClients.nbClients] = client;
+    listeClients.nbClients++;
 
 	return &result;
 }
