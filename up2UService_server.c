@@ -39,16 +39,16 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 	nb_clients = 2;
 
 	strcpy(listeModeles[0].nom, "Iphone X");
-	strcpy(listeModeles[0].modele.description, "Au top !");
-	listeModeles[0].modele.prix = 39.99;
+	strcpy(listeModeles[0].description, "Au top !");
+	listeModeles[0].prix = 39.99;
 	
-	strcpy(listeModeles[1].modele.nom, "Galaxy S20");
-	strcpy(listeModeles[1].modele.description, "Description...");
-	listeModeles[1].modele.prix = 37.88;
+	strcpy(listeModeles[1].nom, "Galaxy S20");
+	strcpy(listeModeles[1].description, "Description...");
+	listeModeles[1].prix = 37.88;
 	
-	strcpy(listeModeles[2].modele.nom, "Galaxy S20+");
-	strcpy(listeModeles[2].modele.description, "Description...");
-	listeModeles[2].modele.prix = 42.04;
+	strcpy(listeModeles[2].nom, "Galaxy S20+");
+	strcpy(listeModeles[2].description, "Description...");
+	listeModeles[2].prix = 42.04;
 	
 	nb_modeles = 3;
 
@@ -68,17 +68,17 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 s_client *
 create_client_1_svc(p_create_client *client, struct svc_req *rqstp)
 {
-	static s_client newClient;
+	static s_client * newClient;
 
-	strcpy(client.prenom, newClient->prenom);
-    strcpy(client.nom, newClient->nom);
-    strcpy(client.adresse.rue, newClient->adresse.rue);
-    strcpy(client.adresse.numeroRue, newClient->adresse.numeroRue);
-    strcpy(client.adresse.codePostal, newClient->adresse.codePostal);
-    strcpy(client.coordonneeBanc, newClient->coordonneeBanc);
+	strcpy(newClient->prenom, client->prenom);
+    strcpy(newClient->nom, client->nom);
+    strcpy(newClient->adresse.rue, client->rue);
+    strcpy(newClient->adresse.numeroRue, client->numeroRue);
+    strcpy(newClient->adresse.codePostal, client->codePostal);
+    strcpy(newClient->coordonneeBanc, client->coordonneeBanc);
 
-    listeClients.clients[listeClients.nbClients] = client;
-    listeClients.nbClients++;
+    listeClients[nb_clients] = *newClient;
+    nb_clients++;
 
 	return &newClient;
 }
@@ -90,16 +90,18 @@ set_client_1_svc(p_set_client *param, struct svc_req *rqstp)
 
     static s_client uptClient;
 
-    s_client client = listeClients[param.id];
+    s_client client = listeClients[param->id];
 
-    strcpy(client.prenom, uptClient->prenom);
-    strcpy(client.nom, uptClient->nom);
-    strcpy(client.adresse, uptClient->adresse.rue);
-    strcpy(client.coordonneeBanc, uptClient->coordonneeBanc);
+    strcpy(uptClient.prenom, client.prenom);
+    strcpy(uptClient.nom, client.nom);
+    strcpy(uptClient.adresse.rue, client.adresse.rue);
+	uptClient.adresse.numeroRue = client.adresse.numeroRue ;
+	uptClient.adresse.codePostal = client.adresse.codePostal;
+    strcpy(uptClient.coordonneeBanc, client.coordonneeBanc);
 
     client = uptClient;
 
-	return uptClient;
+	return &uptClient;
 }
 
 int *
@@ -114,10 +116,10 @@ init_location_1_svc(void *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-clients *
+s_clients *
 get_clients_1_svc(void *argp, struct svc_req *rqstp)
 {
-	static clients  result;
+	static s_clients  result;
 
 	/*
 	 * insert server code here
@@ -126,10 +128,10 @@ get_clients_1_svc(void *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-client *
+s_client *
 get_client_1_svc(int *argp, struct svc_req *rqstp)
 {
-	static client  result;
+	static s_client  result;
 
 	/*
 	 * insert server code here
@@ -138,10 +140,10 @@ get_client_1_svc(int *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-location *
-set_location_client_1_svc(client *argp, struct svc_req *rqstp)
+s_location *
+set_location_client_1_svc(s_client *argp, struct svc_req *rqstp)
 {
-	static location  result;
+	static s_location  result;
 
 	/*
 	 * insert server code here
@@ -150,10 +152,10 @@ set_location_client_1_svc(client *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-mobile *
+s_modele *
 get_mobiles_1_svc(void *argp, struct svc_req *rqstp)
 {
-	static mobile  result;
+	static s_modele  result;
 
 	/*
 	 * insert server code here
@@ -186,10 +188,10 @@ set_params_mobile_1_svc(p_params_mobile *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-location *
+s_location *
 set_location_mobile_1_svc(p_location_mobile *argp, struct svc_req *rqstp)
 {
-	static location  result;
+	static s_location  result;
 
 	/*
 	 * insert server code here
@@ -198,10 +200,10 @@ set_location_mobile_1_svc(p_location_mobile *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-assurances *
+s_assurances *
 get_assurances_1_svc(void *argp, struct svc_req *rqstp)
 {
-	static assurances  result;
+	static s_assurances  result;
 
 	/*
 	 * insert server code here
@@ -210,10 +212,10 @@ get_assurances_1_svc(void *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-location *
+s_location *
 set_location_assurances_1_svc(p_location_assurance *argp, struct svc_req *rqstp)
 {
-	static location  result;
+	static s_location  result;
 
 	/*
 	 * insert server code here
