@@ -6,28 +6,34 @@
 
 #include "up2UService.h"
 
+clients listeClients;
+
 void *
 init_1_svc(void *argp, struct svc_req *rqstp)
 {
 	static char * result;
-
-	/*
-	 * insert server code here
-	 */
-
+	printf("Bienvenue !\n");
+	listeClients.nbClients = 0;
 	return (void *) &result;
 }
 
 client *
-create_client_1_svc(p_create_client *argp, struct svc_req *rqstp)
+create_client_1_svc(p_create_client *newClient, struct svc_req *rqstp)
 {
-	static client  result;
+	static client client;
 
-	/*
-	 * insert server code here
-	 */
 
-	return &result;
+	strcpy(client.prenom, newClient->prenom);
+	strcpy(client.nom, newClient->nom);
+	strcpy(client.adresse.rue, newClient->adresse.rue);
+	strcpy(client.adresse.numeroRue, newClient->adresse.numeroRue);
+	strcpy(client.adresse.codePostal, newClient->adresse.codePostal);
+	strcpy(client.coordonneeBanc, newClient->coordonneeBanc);
+
+	listeClients.clients[listeClients.nbClients] = client;
+	listeClients.nbClients++;
+
+	return &client;
 }
 
 client *

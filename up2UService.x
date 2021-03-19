@@ -64,7 +64,7 @@ struct assurances {
 } ;
 
 
-struct p_create_client { char nom[15]; char prenom[15]; adresse adresse; char coordonneeBanc[30]; };
+struct p_create_client { char nom[15]; char prenom[15]; int numeroRue; int codePostal; char rue[30]; char coordonneeBanc[30]; };
 struct p_set_client { int id; char nom[15]; char prenom[15]; adresse adresse; char coordonneeBanc[30]; };
 struct p_params_mobile { couleur couleur; connectivite connectivite; memoire memoire; };
 struct p_location_mobile { location location; appareil appareil; };
