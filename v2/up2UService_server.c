@@ -6,40 +6,100 @@
 
 #include "up2UService.h"
 
+s_client liste_clients[10];
+int nb_clients = 0;
+
+s_modele liste_modeles[10];
+int nb_modeles = 0;
+
+s_assurance liste_assurances[10];
+int nb_assurances = 0;
+
 void *
 init_1_svc(void *argp, struct svc_req *rqstp)
 {
+	printf("Initialisation du serveur\n");
+
 	static char * result;
 
-	/*
-	 * insert server code here
-	 */
+	strcpy(liste_clients[0].nom, "PICART");
+	strcpy(liste_clients[0].prenom, "Mathieu");
+	liste_clients[0].adresse.codePostal = 29200;
+	liste_clients[0].adresse.numeroRue = 1;
+	strcpy(liste_clients[0].adresse.rue, "Rue de Roubaix");
+	strcpy(liste_clients[0].coordonneeBanc, "test");
+
+	strcpy(liste_clients[0].nom, "LE BEC");
+	strcpy(liste_clients[0].prenom, "Owen");
+	liste_clients[0].adresse.codePostal = 29200;
+	liste_clients[0].adresse.numeroRue = 1;
+	strcpy(liste_clients[0].adresse.rue, "Rue de Roubaix");
+	strcpy(liste_clients[0].coordonneeBanc, "test");
+	
+	nb_clients = 2;
+
+	strcpy(liste_modeles[0].nom, "Iphone X");
+	strcpy(liste_modeles[0].description, "Au top !");
+	liste_modeles[0].prix = 39.99;
+	
+	strcpy(liste_modeles[1].nom, "Galaxy S20");
+	strcpy(liste_modeles[1].description, "Description...");
+	liste_modeles[1].prix = 37.88;
+	
+	strcpy(liste_modeles[2].nom, "Galaxy S20+");
+	strcpy(liste_modeles[2].description, "Description...");
+	liste_modeles[2].prix = 42.04;
+	
+	nb_modeles = 3;
+
+	strcpy(liste_assurances[0].titre, "Samsung Care+ Paiement Unique");
+	strcpy(liste_assurances[0].description, "Description");
+	liste_assurances[0].prix = 89.00;
+
+	strcpy(liste_assurances[0].titre, "Samsung Care+ Souscription");
+	strcpy(liste_assurances[0].description, "Description");
+	liste_assurances[0].prix = 4.99;
+
+	nb_assurances = 2;		
 
 	return (void *) &result;
 }
 
 s_client *
-create_client_1_svc(p_create_client *argp, struct svc_req *rqstp)
+create_client_1_svc(p_create_client *client, struct svc_req *rqstp)
 {
-	static s_client  result;
+	static s_client * newClient;
 
-	/*
-	 * insert server code here
-	 */
+	strcpy(newClient->prenom, client->prenom);
+    strcpy(newClient->nom, client->nom);
+    strcpy(newClient->adresse.rue, client->rue);
+    newClient->adresse.numeroRue = client->numeroRue;
+   	newClient->adresse.codePostal = client->codePostal;
+    strcpy(newClient->coordonneeBanc, client->coordonneeBanc);
 
-	return &result;
+    liste_clients[nb_clients] = *newClient;
+    nb_clients++;
+
+	return newClient;
 }
 
 s_client *
-set_client_1_svc(p_set_client *argp, struct svc_req *rqstp)
+set_client_1_svc(p_set_client *param, struct svc_req *rqstp)
 {
-	static s_client  result;
+	static s_client uptClient;
 
-	/*
-	 * insert server code here
-	 */
+    s_client client = liste_clients[param->id];
 
-	return &result;
+    strcpy(uptClient.prenom, client.prenom);
+    strcpy(uptClient.nom, client.nom);
+    strcpy(uptClient.adresse.rue, client.adresse.rue);
+	uptClient.adresse.numeroRue = client.adresse.numeroRue ;
+	uptClient.adresse.codePostal = client.adresse.codePostal;
+    strcpy(uptClient.coordonneeBanc, client.coordonneeBanc);
+
+    client = uptClient;
+
+	return &uptClient;
 }
 
 int *
@@ -57,7 +117,7 @@ init_location_1_svc(void *argp, struct svc_req *rqstp)
 listeClients *
 get_clients_1_svc(void *argp, struct svc_req *rqstp)
 {
-	static listeClients  result;
+	static listeClients result;
 
 	/*
 	 * insert server code here

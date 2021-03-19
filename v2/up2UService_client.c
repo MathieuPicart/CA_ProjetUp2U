@@ -52,14 +52,44 @@ up2uservice_1(char *host)
 	if (result_1 == (void *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
+
+	printf("Serveur initialisé !\n");
+
+	printf("=========================================\n");
+
+	strcpy(create_client_1_arg.nom, "DUPONT");
+	strcpy(create_client_1_arg.prenom, "Jean");
+	create_client_1_arg.codePostal = 36450;
+	create_client_1_arg.numeroRue = 12;
+	strcpy(create_client_1_arg.rue, "Chemin del papa");
+	strcpy(create_client_1_arg.coordonneeBanc, "coordonnee banc");
+
 	result_2 = create_client_1(&create_client_1_arg, clnt);
 	if (result_2 == (s_client *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
+
+	printf("Ajout du client\n");
+
+	printf("=========================================\n");
+
+	set_client_1_arg.id = 3;
+	strcpy(set_client_1_arg.nom, "CASTEX");
+	strcpy(set_client_1_arg.prenom, "Janot");
+	strcpy(set_client_1_arg.coordonneeBanc, "ta mere castex");
+	set_client_1_arg.adresse.codePostal = 89667;
+	set_client_1_arg.adresse.numeroRue = 45;
+	strcpy(set_client_1_arg.adresse.rue, "Chemin du paradis");
+
 	result_3 = set_client_1(&set_client_1_arg, clnt);
 	if (result_3 == (s_client *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
+
+	printf("Modification du client\n");
+
+	printf("=========================================\n");
+
 	result_4 = init_location_1((void*)&init_location_1_arg, clnt);
 	if (result_4 == (int *) NULL) {
 		clnt_perror (clnt, "call failed");
