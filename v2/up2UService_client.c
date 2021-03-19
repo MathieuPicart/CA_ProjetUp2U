@@ -7,6 +7,13 @@
 #include "up2UService.h"
 
 
+void afficherClient(s_client client) {
+	printf("%s\n", client.nom);
+	printf("%s\n", client.prenom);
+	printf("%d %s %s\n", client.adresse.numeroRue, client.adresse.rue, client.adresse.codePostal);
+	printf("%s\n", client.coordonneeBanc);
+}
+
 void
 up2uservice_1(char *host)
 {
@@ -68,6 +75,8 @@ up2uservice_1(char *host)
 	if (result_2 == (s_client *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
+
+	afficherClient(*result_2);
 
 	printf("Ajout du client\n");
 

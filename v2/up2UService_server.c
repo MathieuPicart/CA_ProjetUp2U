@@ -68,19 +68,19 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 s_client *
 create_client_1_svc(p_create_client *client, struct svc_req *rqstp)
 {
-	static s_client * newClient;
+	static s_client newClient;
 
-	strcpy(newClient->prenom, client->prenom);
-    strcpy(newClient->nom, client->nom);
-    strcpy(newClient->adresse.rue, client->rue);
-    newClient->adresse.numeroRue = client->numeroRue;
-   	newClient->adresse.codePostal = client->codePostal;
-    strcpy(newClient->coordonneeBanc, client->coordonneeBanc);
+	strcpy(newClient.prenom, client->prenom);
+    strcpy(newClient.nom, client->nom);
+    strcpy(newClient.adresse.rue, client->rue);
+    newClient.adresse.numeroRue = client->numeroRue;
+   	newClient.adresse.codePostal = client->codePostal;
+    strcpy(newClient.coordonneeBanc, client->coordonneeBanc);
 
-    liste_clients[nb_clients] = *newClient;
+    liste_clients[nb_clients] = newClient;
     nb_clients++;
 
-	return newClient;
+	return &newClient;
 }
 
 s_client *
