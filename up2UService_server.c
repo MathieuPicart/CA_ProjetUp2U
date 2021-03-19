@@ -57,28 +57,41 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 	return (void *) &result;
 }
 
-client *
-create_client_1_svc(p_create_client *argp, struct svc_req *rqstp)
+s_client *
+create_client_1_svc(p_create_client *client, struct svc_req *rqstp)
 {
-	static client  result;
+	static s_client newClient;
 
-	/*
-	 * insert server code here
-	 */
+	strcpy(client.prenom, newClient->prenom);
+    strcpy(client.nom, newClient->nom);
+    strcpy(client.adresse.rue, newClient->adresse.rue);
+    strcpy(client.adresse.numeroRue, newClient->adresse.numeroRue);
+    strcpy(client.adresse.codePostal, newClient->adresse.codePostal);
+    strcpy(client.coordonneeBanc, newClient->coordonneeBanc);
 
-	return &result;
+    listeClients.clients[listeClients.nbClients] = client;
+    listeClients.nbClients++;
+
+	return &newClient;
 }
 
-client *
-set_client_1_svc(p_set_client *argp, struct svc_req *rqstp)
+s_client *
+set_client_1_svc(p_set_client *param, struct svc_req *rqstp)
 {
-	static client  result;
+//int id; char nom[15]; char prenom[15]; s_adresse adresse; char coordonneeBanc[30];
 
-	/*
-	 * insert server code here
-	 */
+    static s_client uptClient;
 
-	return &result;
+    s_client client = listeClients[param.id];
+
+    strcpy(client.prenom, uptClient->prenom);
+    strcpy(client.nom, uptClient->nom);
+    strcpy(client.adresse, uptClient->adresse.rue);
+    strcpy(client.coordonneeBanc, uptClient->coordonneeBanc);
+
+    client = uptClient;
+
+	return uptClient;
 }
 
 int *
