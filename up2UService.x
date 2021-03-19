@@ -1,75 +1,75 @@
 #define MAX 5
 
-enum couleur { ROUGE, VERT, NOIR, BLANC };
-typedef enum couleur couleur;
+enum e_couleur { ROUGE, VERT, NOIR, BLANC };
+typedef enum e_couleur couleur;
 
-enum connectivite { G4, G5 };
-typedef enum connectivite connectivite;
+enum e_connectivite { G4, G5 };
+typedef enum e_connectivite connectivite;
 
-enum memoire { GO128, GO256, GO512 };
-typedef enum memoire memoire;
+enum e_memoire { GO128, GO256, GO512 };
+typedef enum e_memoire memoire;
 
-struct date {
+struct s_date {
 	int jour;
 	int mois;
 	int annee;
 };
 
-struct adresse {
+struct s_adresse {
 	int numeroRue;
     int codePostal;
 	char rue[30];
 };
 
-struct modele {
+struct s_modele {
 	char nom[15];
 	float prix;
 	char description[255];
 };
 
-struct appareil {
-	modele modele;
-	couleur couleur;
-	connectivite connectivite;
-    memoire memoire;
+struct s_appareil {
+	s_modele modele;
+	e_couleur couleur;
+	e_connectivite connectivite;
+    e_memoire memoire;
 };
 
-struct location {
-    client client;
-	appareil appareil;
-    assurance assurance;
+struct s_location {
+    s_client client;
+	s_appareil appareil;
+    s_assurance assurance;
 };
 
-struct assurance {
+struct s_assurance {
 	char titre[15];
 	float prix;
 	char description[255];
 };
 
-struct client {
+struct s_client {
     char nom[15];
     char prenom[15];
-    adresse adresse;
+    s_adresse adresse;
     char coordonneeBanc[100];
 };
 
-struct clients {
-    client clients[MAX];
+struct s_clients {
+    s_client clients[MAX];
     int nbClients;
 };
   
-struct assurances {
-    assurance assurances[MAX];
+struct s_assurances {
+    s_assurance assurances[MAX];
     int nbAssurances;
 } ;
 
 
 struct p_create_client { char nom[15]; char prenom[15]; int numeroRue; int codePostal; char rue[30]; char coordonneeBanc[30]; };
-struct p_set_client { int id; char nom[15]; char prenom[15]; adresse adresse; char coordonneeBanc[30]; };
+struct p_set_client { int id; char nom[15]; char prenom[15]; s_adresse adresse; char coordonneeBanc[30]; };
 struct p_params_mobile { couleur couleur; connectivite connectivite; memoire memoire; };
-struct p_location_mobile { location location; appareil appareil; };
-struct p_location_assurance {location location; assurance assurance; };
-struct p_create_livraison {location location; date date;};
+struct p_location_mobile { s_location location; s_appareil appareil; };
+struct p_location_assurance {s_location location; s_assurance assurance; };
+struct p_create_livraison {s_location location; s_date date;};
 
 
 program UP2USERVICE {

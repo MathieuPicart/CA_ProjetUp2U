@@ -14,97 +14,102 @@ extern "C" {
 #endif
 
 
-enum couleur {
+enum e_couleur {
 	ROUGE = 0,
 	VERT = 1,
 	NOIR = 2,
 	BLANC = 3,
 };
-typedef enum couleur couleur;
+typedef enum e_couleur e_couleur;
 
+typedef e_couleur couleur;
 
-enum connectivite {
+enum e_connectivite {
 	G4 = 0,
 	G5 = 1,
 };
-typedef enum connectivite connectivite;
+typedef enum e_connectivite e_connectivite;
 
+typedef e_connectivite connectivite;
 
-enum memoire {
+enum e_memoire {
 	GO128 = 0,
 	GO256 = 1,
 	GO512 = 2,
 };
-typedef enum memoire memoire;
+typedef enum e_memoire e_memoire;
 
+typedef e_memoire memoire;
 
-struct date {
+struct s_date {
 	int jour;
 	int mois;
 	int annee;
 };
-typedef struct date date;
+typedef struct s_date s_date;
 
-struct adresse {
+struct s_adresse {
 	int numeroRue;
 	int codePostal;
 	char rue[30];
 };
-typedef struct adresse adresse;
+typedef struct s_adresse s_adresse;
 
-struct modele {
+struct s_modele {
 	char nom[15];
 	float prix;
 	char description[255];
 };
-typedef struct modele modele;
+typedef struct s_modele s_modele;
 
-struct appareil {
-	modele modele;
-	couleur couleur;
-	connectivite connectivite;
-	memoire memoire;
+struct s_appareil {
+	s_modele modele;
+	e_couleur couleur;
+	e_connectivite connectivite;
+	e_memoire memoire;
 };
-typedef struct appareil appareil;
+typedef struct s_appareil s_appareil;
 
-struct location {
-	client client;
-	appareil appareil;
-	assurance assurance;
+struct s_location {
+	s_client client;
+	s_appareil appareil;
+	s_assurance assurance;
 };
-typedef struct location location;
+typedef struct s_location s_location;
 
-struct assurance {
+struct s_assurance {
 	char titre[15];
 	float prix;
 	char description[255];
 };
-typedef struct assurance assurance;
+typedef struct s_assurance s_assurance;
 
-struct client {
+struct s_client {
 	char nom[15];
 	char prenom[15];
-	adresse adresse;
+	s_adresse adresse;
 	char coordonneeBanc[100];
 };
-typedef struct client client;
+typedef struct s_client s_client;
 
-struct clients {
-	client clients[5];
+struct s_clients {
+	s_client clients[5];
 	int nbClients;
 };
-typedef struct clients clients;
+typedef struct s_clients s_clients;
 
-struct assurances {
-	assurance assurances[5];
+struct s_assurances {
+	s_assurance assurances[5];
 	int nbAssurances;
 };
-typedef struct assurances assurances;
+typedef struct s_assurances s_assurances;
 
 struct p_create_client {
 	char nom[15];
 	char prenom[15];
-	adresse adresse;
+	int numeroRue;
+	int codePostal;
+	char rue[30];
 	char coordonneeBanc[30];
 };
 typedef struct p_create_client p_create_client;
@@ -113,7 +118,7 @@ struct p_set_client {
 	int id;
 	char nom[15];
 	char prenom[15];
-	adresse adresse;
+	s_adresse adresse;
 	char coordonneeBanc[30];
 };
 typedef struct p_set_client p_set_client;
@@ -126,20 +131,20 @@ struct p_params_mobile {
 typedef struct p_params_mobile p_params_mobile;
 
 struct p_location_mobile {
-	location location;
-	appareil appareil;
+	s_location location;
+	s_appareil appareil;
 };
 typedef struct p_location_mobile p_location_mobile;
 
 struct p_location_assurance {
-	location location;
-	assurance assurance;
+	s_location location;
+	s_assurance assurance;
 };
 typedef struct p_location_assurance p_location_assurance;
 
 struct p_create_livraison {
-	location location;
-	date date;
+	s_location location;
+	s_date date;
 };
 typedef struct p_create_livraison p_create_livraison;
 
@@ -240,21 +245,21 @@ extern int up2uservice_1_freeresult ();
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
+extern  bool_t xdr_e_couleur (XDR *, e_couleur*);
 extern  bool_t xdr_couleur (XDR *, couleur*);
-extern  bool_t xdr_couleur (XDR *, couleur*);
+extern  bool_t xdr_e_connectivite (XDR *, e_connectivite*);
 extern  bool_t xdr_connectivite (XDR *, connectivite*);
-extern  bool_t xdr_connectivite (XDR *, connectivite*);
+extern  bool_t xdr_e_memoire (XDR *, e_memoire*);
 extern  bool_t xdr_memoire (XDR *, memoire*);
-extern  bool_t xdr_memoire (XDR *, memoire*);
-extern  bool_t xdr_date (XDR *, date*);
-extern  bool_t xdr_adresse (XDR *, adresse*);
-extern  bool_t xdr_modele (XDR *, modele*);
-extern  bool_t xdr_appareil (XDR *, appareil*);
-extern  bool_t xdr_location (XDR *, location*);
-extern  bool_t xdr_assurance (XDR *, assurance*);
-extern  bool_t xdr_client (XDR *, client*);
-extern  bool_t xdr_clients (XDR *, clients*);
-extern  bool_t xdr_assurances (XDR *, assurances*);
+extern  bool_t xdr_s_date (XDR *, s_date*);
+extern  bool_t xdr_s_adresse (XDR *, s_adresse*);
+extern  bool_t xdr_s_modele (XDR *, s_modele*);
+extern  bool_t xdr_s_appareil (XDR *, s_appareil*);
+extern  bool_t xdr_s_location (XDR *, s_location*);
+extern  bool_t xdr_s_assurance (XDR *, s_assurance*);
+extern  bool_t xdr_s_client (XDR *, s_client*);
+extern  bool_t xdr_s_clients (XDR *, s_clients*);
+extern  bool_t xdr_s_assurances (XDR *, s_assurances*);
 extern  bool_t xdr_p_create_client (XDR *, p_create_client*);
 extern  bool_t xdr_p_set_client (XDR *, p_set_client*);
 extern  bool_t xdr_p_params_mobile (XDR *, p_params_mobile*);
@@ -263,21 +268,21 @@ extern  bool_t xdr_p_location_assurance (XDR *, p_location_assurance*);
 extern  bool_t xdr_p_create_livraison (XDR *, p_create_livraison*);
 
 #else /* K&R C */
+extern bool_t xdr_e_couleur ();
 extern bool_t xdr_couleur ();
-extern bool_t xdr_couleur ();
+extern bool_t xdr_e_connectivite ();
 extern bool_t xdr_connectivite ();
-extern bool_t xdr_connectivite ();
+extern bool_t xdr_e_memoire ();
 extern bool_t xdr_memoire ();
-extern bool_t xdr_memoire ();
-extern bool_t xdr_date ();
-extern bool_t xdr_adresse ();
-extern bool_t xdr_modele ();
-extern bool_t xdr_appareil ();
-extern bool_t xdr_location ();
-extern bool_t xdr_assurance ();
-extern bool_t xdr_client ();
-extern bool_t xdr_clients ();
-extern bool_t xdr_assurances ();
+extern bool_t xdr_s_date ();
+extern bool_t xdr_s_adresse ();
+extern bool_t xdr_s_modele ();
+extern bool_t xdr_s_appareil ();
+extern bool_t xdr_s_location ();
+extern bool_t xdr_s_assurance ();
+extern bool_t xdr_s_client ();
+extern bool_t xdr_s_clients ();
+extern bool_t xdr_s_assurances ();
 extern bool_t xdr_p_create_client ();
 extern bool_t xdr_p_set_client ();
 extern bool_t xdr_p_params_mobile ();

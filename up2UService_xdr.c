@@ -6,7 +6,27 @@
 #include "up2UService.h"
 
 bool_t
+xdr_e_couleur (XDR *xdrs, e_couleur *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_enum (xdrs, (enum_t *) objp))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_couleur (XDR *xdrs, couleur *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_e_couleur (xdrs, objp))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_e_connectivite (XDR *xdrs, e_connectivite *objp)
 {
 	register int32_t *buf;
 
@@ -20,6 +40,16 @@ xdr_connectivite (XDR *xdrs, connectivite *objp)
 {
 	register int32_t *buf;
 
+	 if (!xdr_e_connectivite (xdrs, objp))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_e_memoire (XDR *xdrs, e_memoire *objp)
+{
+	register int32_t *buf;
+
 	 if (!xdr_enum (xdrs, (enum_t *) objp))
 		 return FALSE;
 	return TRUE;
@@ -30,13 +60,13 @@ xdr_memoire (XDR *xdrs, memoire *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_enum (xdrs, (enum_t *) objp))
+	 if (!xdr_e_memoire (xdrs, objp))
 		 return FALSE;
 	return TRUE;
 }
 
 bool_t
-xdr_date (XDR *xdrs, date *objp)
+xdr_s_date (XDR *xdrs, s_date *objp)
 {
 	register int32_t *buf;
 
@@ -50,7 +80,7 @@ xdr_date (XDR *xdrs, date *objp)
 }
 
 bool_t
-xdr_adresse (XDR *xdrs, adresse *objp)
+xdr_s_adresse (XDR *xdrs, s_adresse *objp)
 {
 	register int32_t *buf;
 
@@ -66,7 +96,7 @@ xdr_adresse (XDR *xdrs, adresse *objp)
 }
 
 bool_t
-xdr_modele (XDR *xdrs, modele *objp)
+xdr_s_modele (XDR *xdrs, s_modele *objp)
 {
 	register int32_t *buf;
 
@@ -83,37 +113,37 @@ xdr_modele (XDR *xdrs, modele *objp)
 }
 
 bool_t
-xdr_appareil (XDR *xdrs, appareil *objp)
+xdr_s_appareil (XDR *xdrs, s_appareil *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_modele (xdrs, &objp->modele))
+	 if (!xdr_s_modele (xdrs, &objp->modele))
 		 return FALSE;
-	 if (!xdr_couleur (xdrs, &objp->couleur))
+	 if (!xdr_e_couleur (xdrs, &objp->couleur))
 		 return FALSE;
-	 if (!xdr_connectivite (xdrs, &objp->connectivite))
+	 if (!xdr_e_connectivite (xdrs, &objp->connectivite))
 		 return FALSE;
-	 if (!xdr_memoire (xdrs, &objp->memoire))
+	 if (!xdr_e_memoire (xdrs, &objp->memoire))
 		 return FALSE;
 	return TRUE;
 }
 
 bool_t
-xdr_location (XDR *xdrs, location *objp)
+xdr_s_location (XDR *xdrs, s_location *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_client (xdrs, &objp->client))
+	 if (!xdr_s_client (xdrs, &objp->client))
 		 return FALSE;
-	 if (!xdr_appareil (xdrs, &objp->appareil))
+	 if (!xdr_s_appareil (xdrs, &objp->appareil))
 		 return FALSE;
-	 if (!xdr_assurance (xdrs, &objp->assurance))
+	 if (!xdr_s_assurance (xdrs, &objp->assurance))
 		 return FALSE;
 	return TRUE;
 }
 
 bool_t
-xdr_assurance (XDR *xdrs, assurance *objp)
+xdr_s_assurance (XDR *xdrs, s_assurance *objp)
 {
 	register int32_t *buf;
 
@@ -130,7 +160,7 @@ xdr_assurance (XDR *xdrs, assurance *objp)
 }
 
 bool_t
-xdr_client (XDR *xdrs, client *objp)
+xdr_s_client (XDR *xdrs, s_client *objp)
 {
 	register int32_t *buf;
 
@@ -141,7 +171,7 @@ xdr_client (XDR *xdrs, client *objp)
 	 if (!xdr_vector (xdrs, (char *)objp->prenom, 15,
 		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
-	 if (!xdr_adresse (xdrs, &objp->adresse))
+	 if (!xdr_s_adresse (xdrs, &objp->adresse))
 		 return FALSE;
 	 if (!xdr_vector (xdrs, (char *)objp->coordonneeBanc, 100,
 		sizeof (char), (xdrproc_t) xdr_char))
@@ -150,13 +180,13 @@ xdr_client (XDR *xdrs, client *objp)
 }
 
 bool_t
-xdr_clients (XDR *xdrs, clients *objp)
+xdr_s_clients (XDR *xdrs, s_clients *objp)
 {
 	register int32_t *buf;
 
 	int i;
 	 if (!xdr_vector (xdrs, (char *)objp->clients, 5,
-		sizeof (client), (xdrproc_t) xdr_client))
+		sizeof (s_client), (xdrproc_t) xdr_s_client))
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->nbClients))
 		 return FALSE;
@@ -164,13 +194,13 @@ xdr_clients (XDR *xdrs, clients *objp)
 }
 
 bool_t
-xdr_assurances (XDR *xdrs, assurances *objp)
+xdr_s_assurances (XDR *xdrs, s_assurances *objp)
 {
 	register int32_t *buf;
 
 	int i;
 	 if (!xdr_vector (xdrs, (char *)objp->assurances, 5,
-		sizeof (assurance), (xdrproc_t) xdr_assurance))
+		sizeof (s_assurance), (xdrproc_t) xdr_s_assurance))
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->nbAssurances))
 		 return FALSE;
@@ -189,7 +219,12 @@ xdr_p_create_client (XDR *xdrs, p_create_client *objp)
 	 if (!xdr_vector (xdrs, (char *)objp->prenom, 15,
 		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
-	 if (!xdr_adresse (xdrs, &objp->adresse))
+	 if (!xdr_int (xdrs, &objp->numeroRue))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->codePostal))
+		 return FALSE;
+	 if (!xdr_vector (xdrs, (char *)objp->rue, 30,
+		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
 	 if (!xdr_vector (xdrs, (char *)objp->coordonneeBanc, 30,
 		sizeof (char), (xdrproc_t) xdr_char))
@@ -211,7 +246,7 @@ xdr_p_set_client (XDR *xdrs, p_set_client *objp)
 	 if (!xdr_vector (xdrs, (char *)objp->prenom, 15,
 		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
-	 if (!xdr_adresse (xdrs, &objp->adresse))
+	 if (!xdr_s_adresse (xdrs, &objp->adresse))
 		 return FALSE;
 	 if (!xdr_vector (xdrs, (char *)objp->coordonneeBanc, 30,
 		sizeof (char), (xdrproc_t) xdr_char))
@@ -238,9 +273,9 @@ xdr_p_location_mobile (XDR *xdrs, p_location_mobile *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_location (xdrs, &objp->location))
+	 if (!xdr_s_location (xdrs, &objp->location))
 		 return FALSE;
-	 if (!xdr_appareil (xdrs, &objp->appareil))
+	 if (!xdr_s_appareil (xdrs, &objp->appareil))
 		 return FALSE;
 	return TRUE;
 }
@@ -250,9 +285,9 @@ xdr_p_location_assurance (XDR *xdrs, p_location_assurance *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_location (xdrs, &objp->location))
+	 if (!xdr_s_location (xdrs, &objp->location))
 		 return FALSE;
-	 if (!xdr_assurance (xdrs, &objp->assurance))
+	 if (!xdr_s_assurance (xdrs, &objp->assurance))
 		 return FALSE;
 	return TRUE;
 }
@@ -262,9 +297,9 @@ xdr_p_create_livraison (XDR *xdrs, p_create_livraison *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_location (xdrs, &objp->location))
+	 if (!xdr_s_location (xdrs, &objp->location))
 		 return FALSE;
-	 if (!xdr_date (xdrs, &objp->date))
+	 if (!xdr_s_date (xdrs, &objp->date))
 		 return FALSE;
 	return TRUE;
 }
