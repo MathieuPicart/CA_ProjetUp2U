@@ -6,14 +6,53 @@
 
 #include "up2UService.h"
 
+s_client listeClients[10];
+int nb_clients = 0;
+
+s_modele listeModeles[10];
+int nb_modeles = 0;
+
+s_assurance listeAssurances[10];
+int nb_assurances = 0;
+
 void *
 init_1_svc(void *argp, struct svc_req *rqstp)
 {
+	printf("Initialisation du serveur\n");
+
 	static char * result;
 
-	/*
-	 * insert server code here
-	 */
+	strcpy(listeClients[0].nom, "PICART");
+	strcpy(listeClients[0].prenom, "Mathieu");
+	listeClients[0].adresse.codePostal = 29200;
+	listeClients[0].adresse.numeroRue = 1;
+	strcpy(listeClients[0].adresse.rue, "Rue de Roubaix");
+	strcpy(listeClients[0].coordonneeBanc, "test");
+
+	strcpy(listeClients[0].nom, "LE BEC");
+	strcpy(listeClients[0].prenom, "Owen");
+	listeClients[0].adresse.codePostal = 29200;
+	listeClients[0].adresse.numeroRue = 1;
+	strcpy(listeClients[0].adresse.rue, "Rue de Roubaix");
+	strcpy(listeClients[0].coordonneeBanc, "test");
+	
+	nb_clients = 2;
+
+	strcpy(listeModeles[0].nom, "Iphone X");
+	strcpy(listeModeles[0].modele.description, "Au top !");
+	listeModeles[0].modele.prix = 39.99;
+	
+	strcpy(listeModeles[1].modele.nom, "Galaxy S20");
+	strcpy(listeModeles[1].modele.description, "Description...");
+	listeModeles[1].modele.prix = 37.88;
+	
+	strcpy(listeModeles[2].modele.nom, "Galaxy S20+");
+	strcpy(listeModeles[2].modele.description, "Description...");
+	listeModeles[2].modele.prix = 42.04;
+	
+	nb_modeles = 3;
+
+
 
 	return (void *) &result;
 }
