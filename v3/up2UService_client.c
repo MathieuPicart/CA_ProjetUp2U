@@ -6,57 +6,59 @@
 
 #include "up2UService.h"
 
-void afficherClient(s_client client) {
+void afficherClient(s_client client)
+{
 	printf("%s\n", client.nom);
 	printf("%s\n", client.prenom);
 	printf("%d %s %s\n", client.adresse.numeroRue, client.adresse.rue, client.adresse.codePostal);
 	printf("%ld %d %d/%d\n", client.coord_bc.numero, client.coord_bc.crypto, client.coord_bc.mois, client.coord_bc.annee);
 }
 
-void
-up2uservice_1(char *host)
+void up2uservice_1(char *host)
 {
 	CLIENT *clnt;
-	void  *result_1;
+	void *result_1;
 	char *init_1_arg;
-	int  *result_2;
-	p_create_client  create_client_1_arg;
-	int  *result_3;
-	p_set_client  set_client_1_arg;
-	listeClients  *result_4;
+	int *result_2;
+	p_create_client create_client_1_arg;
+	int *result_3;
+	p_set_client set_client_1_arg;
+	listeClients *result_4;
 	char *get_clients_1_arg;
-	int  *result_5;
-	p_location_client  set_location_client_1_arg;
-	listeModeles  *result_6;
+	int *result_5;
+	p_location_client set_location_client_1_arg;
+	listeModeles *result_6;
 	char *get_modeles_1_arg;
-	int  *result_7;
-	int  set_location_modele_1_arg;
-	listeModelesParams  *result_8;
-	int  get_modele_params_1_arg;
-	int  *result_9;
-	p_location_params_modele  set_location_modele_params_1_arg;
-	listeAssurances  *result_10;
+	int *result_7;
+	int set_location_modele_1_arg;
+	listeModelesParams *result_8;
+	int get_modele_params_1_arg;
+	int *result_9;
+	p_location_params_modele set_location_modele_params_1_arg;
+	listeAssurances *result_10;
 	char *get_assurances_1_arg;
-	int  *result_11;
-	p_location_assurance  set_location_assurance_1_arg;
-	int  *result_12;
-	p_location_date  set_location_date_1_arg;
-	int  *result_13;
-	int  confirmer_location_1_arg;
+	int *result_11;
+	p_location_assurance set_location_assurance_1_arg;
+	int *result_12;
+	p_location_date set_location_date_1_arg;
+	int *result_13;
+	int confirmer_location_1_arg;
 
-#ifndef	DEBUG
-	clnt = clnt_create (host, UP2USERVICE, UP2USERVICE_V_1, "udp");
-	if (clnt == NULL) {
-		clnt_pcreateerror (host);
-		exit (1);
+#ifndef DEBUG
+	clnt = clnt_create(host, UP2USERVICE, UP2USERVICE_V_1, "udp");
+	if (clnt == NULL)
+	{
+		clnt_pcreateerror(host);
+		exit(1);
 	}
-#endif	/* DEBUG */
+#endif /* DEBUG */
 
-	result_1 = init_1((void*)&init_1_arg, clnt);
-	if (result_1 == (void *) NULL) {
-		clnt_perror (clnt, "call failed");
+	result_1 = init_1((void *)&init_1_arg, clnt);
+	if (result_1 == (void *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
-	
+
 	printf("Serveur initialisé !\n");
 
 	printf("=========================================\n");
@@ -74,8 +76,9 @@ up2uservice_1(char *host)
 	printf("Ajout du client\n");
 
 	result_2 = create_client_1(&create_client_1_arg, clnt);
-	if (result_2 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_2 == (int *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
 
 	printf("=========================================\n");
@@ -94,70 +97,86 @@ up2uservice_1(char *host)
 	printf("Modification du client\n");
 
 	result_3 = set_client_1(&set_client_1_arg, clnt);
-	if (result_3 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_3 == (int *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
 
-	printf("Modification du client effectué\n");		
+	printf("Modification du client effectué\n");
 
 	printf("=========================================\n");
 
-	result_4 = get_clients_1((void*)&get_clients_1_arg, clnt);
-	if (result_4 == (listeClients *) NULL) {
-		clnt_perror (clnt, "call failed");
+	result_4 = get_clients_1((void *)&get_clients_1_arg, clnt);
+	if (result_4 == (listeClients *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
+
+	for (int i = 0; i < result_4->nb_clients; i++)
+	{
+		afficherClient(result_4->client[i]);
+	}
+
 	result_5 = set_location_client_1(&set_location_client_1_arg, clnt);
-	if (result_5 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_5 == (int *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
-	result_6 = get_modeles_1((void*)&get_modeles_1_arg, clnt);
-	if (result_6 == (listeModeles *) NULL) {
-		clnt_perror (clnt, "call failed");
+	result_6 = get_modeles_1((void *)&get_modeles_1_arg, clnt);
+	if (result_6 == (listeModeles *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
 	result_7 = set_location_modele_1(&set_location_modele_1_arg, clnt);
-	if (result_7 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_7 == (int *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
 	result_8 = get_modele_params_1(&get_modele_params_1_arg, clnt);
-	if (result_8 == (listeModelesParams *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_8 == (listeModelesParams *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
 	result_9 = set_location_modele_params_1(&set_location_modele_params_1_arg, clnt);
-	if (result_9 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_9 == (int *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
-	result_10 = get_assurances_1((void*)&get_assurances_1_arg, clnt);
-	if (result_10 == (listeAssurances *) NULL) {
-		clnt_perror (clnt, "call failed");
+	result_10 = get_assurances_1((void *)&get_assurances_1_arg, clnt);
+	if (result_10 == (listeAssurances *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
 	result_11 = set_location_assurance_1(&set_location_assurance_1_arg, clnt);
-	if (result_11 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_11 == (int *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
 	result_12 = set_location_date_1(&set_location_date_1_arg, clnt);
-	if (result_12 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_12 == (int *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
 	result_13 = confirmer_location_1(&confirmer_location_1_arg, clnt);
-	if (result_13 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	if (result_13 == (int *)NULL)
+	{
+		clnt_perror(clnt, "call failed");
 	}
-#ifndef	DEBUG
-	clnt_destroy (clnt);
-#endif	 /* DEBUG */
+#ifndef DEBUG
+	clnt_destroy(clnt);
+#endif /* DEBUG */
 }
 
-
-int
-main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	char *host;
 
-	if (argc < 2) {
-		printf ("usage: %s server_host\n", argv[0]);
-		exit (1);
+	if (argc < 2)
+	{
+		printf("usage: %s server_host\n", argv[0]);
+		exit(1);
 	}
 	host = argv[1];
-	up2uservice_1 (host);
-exit (0);
+	up2uservice_1(host);
+	exit(0);
 }
