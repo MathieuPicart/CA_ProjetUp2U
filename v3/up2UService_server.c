@@ -16,6 +16,9 @@ int nb_modeles = 0;
 s_assurance liste_assurances[10];
 int nb_assurances = 0;
 
+s_location liste_locations[10];
+int nb_locations = 0;
+
 void *
 init_1_svc(void *argp, struct svc_req *rqstp)
 {
@@ -142,11 +145,17 @@ set_client_1_svc(p_set_client *param, struct svc_req *rqstp)
 listeClients *
 get_clients_1_svc(void *argp, struct svc_req *rqstp)
 {
-	static listeClients  result;
+	printf("Debut get_clients\n");
 
-	/*
-	 * insert server code here
-	 */
+	static listeClients result;
+
+	int i = 0;
+	for(i = 0; i < nb_clients; i++){
+		result.client[i] = liste_clients[i];
+	}
+	result.nb_clients = i;
+
+	printf("Fin get_clients\n");
 
 	return &result;
 }
@@ -154,11 +163,16 @@ get_clients_1_svc(void *argp, struct svc_req *rqstp)
 int *
 set_location_client_1_svc(p_location_client *argp, struct svc_req *rqstp)
 {
-	static int  result;
+	printf("Debut set_location_client\n");
 
-	/*
-	 * insert server code here
-	 */
+	static int result;
+
+	liste_locations[nb_locations].id = nb_locations;
+	liste_locations[nb_locations].id_client = argp->id_client;
+	
+	nb_locations++;
+
+	printf("Fin set_location_client\n");
 
 	return &result;
 }
@@ -166,11 +180,17 @@ set_location_client_1_svc(p_location_client *argp, struct svc_req *rqstp)
 listeModeles *
 get_modeles_1_svc(void *argp, struct svc_req *rqstp)
 {
+	printf("Debut get_modeles\n");
+
 	static listeModeles  result;
 
-	/*
-	 * insert server code here
-	 */
+	int i = 0;
+	for(i = 0; i < nb_modeles; i++){
+		result.modeles[i] = liste_modeles[i];
+	}
+	result.nb_modeles = i;
+
+	printf("Fin get_modeles\n");
 
 	return &result;
 }
@@ -178,11 +198,13 @@ get_modeles_1_svc(void *argp, struct svc_req *rqstp)
 int *
 set_location_modele_1_svc(int *argp, struct svc_req *rqstp)
 {
-	static int  result;
+	printf("Debut set_location_modele\n");
 
-	/*
-	 * insert server code here
-	 */
+	static int result;
+
+	liste_locations[nb_locations].id_modele = *argp;
+
+	printf("Fin set_location_modele\n");
 
 	return &result;
 }
@@ -190,11 +212,17 @@ set_location_modele_1_svc(int *argp, struct svc_req *rqstp)
 listeModelesParams *
 get_modele_params_1_svc(int *argp, struct svc_req *rqstp)
 {
-	static listeModelesParams  result;
+	printf("Debut get_modele_params\n");
 
-	/*
-	 * insert server code here
-	 */
+	static listeModelesParams  result;
+	// Changer type return & retourner les tableaux les params en brut methode 
+	int i = 0;
+	for(i = 0; i < nb_modeles; i++){
+		result.modeles[i] = liste_modeles[i];
+	}
+	result.nb_modeles = i;
+	
+	printf("Fin get_modele_params\n");
 
 	return &result;
 }
@@ -204,9 +232,7 @@ set_location_modele_params_1_svc(p_location_params_modele *argp, struct svc_req 
 {
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	
 
 	return &result;
 }
@@ -214,23 +240,29 @@ set_location_modele_params_1_svc(p_location_params_modele *argp, struct svc_req 
 listeAssurances *
 get_assurances_1_svc(void *argp, struct svc_req *rqstp)
 {
+	printf("Debut get_modeles\n");
+
 	static listeAssurances  result;
 
-	/*
-	 * insert server code here
-	 */
+	int i = 0;
+	for(i = 0; i < nb_assurances; i++){
+		result.assurances[i] = liste_assurances[i];
+	}
+	result.nb_assurances = i;
 
-	return &result;
+	printf("Fin get_modeles\n");		
 }
 
 int *
 set_location_assurance_1_svc(p_location_assurance *argp, struct svc_req *rqstp)
 {
-	static int  result;
+	printf("Debut set_location_assurance\n");
 
-	/*
-	 * insert server code here
-	 */
+	static int result;
+
+	liste_locations[argp->id_location].id_assurance = argp->id_assurance;
+	
+	printf("Fin set_location_assurance\n");
 
 	return &result;
 }
@@ -238,11 +270,13 @@ set_location_assurance_1_svc(p_location_assurance *argp, struct svc_req *rqstp)
 int *
 set_location_date_1_svc(p_location_date *argp, struct svc_req *rqstp)
 {
-	static int  result;
+	printf("Debut set_location_date\n");
 
-	/*
-	 * insert server code here
-	 */
+	static int result;
+
+	liste_locations[argp->id_location].date_livraison = argp->date_livraison;
+	
+	printf("Fin set_location_date\n");
 
 	return &result;
 }
@@ -250,11 +284,13 @@ set_location_date_1_svc(p_location_date *argp, struct svc_req *rqstp)
 int *
 confirmer_location_1_svc(int *argp, struct svc_req *rqstp)
 {
-	static int  result;
+	printf("Debut confirmer_location\n");
 
-	/*
-	 * insert server code here
-	 */
+	static int result;
+
+	liste_locations[*argp].confirme = 0;
+	
+	printf("Fin confirmer_location\n");
 
 	return &result;
 }

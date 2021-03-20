@@ -117,6 +117,11 @@ struct p_location_client {
     int id_client; 
 };
 
+struct p_location_modele { 
+    int id_location;
+    int id_modele; 
+};
+
 struct p_location_params_modele { 
     int id_location;
     s_params_modele params_modele; 
@@ -140,7 +145,7 @@ program UP2USERVICE {
         listeClients GET_CLIENTS() = 4;
         int SET_LOCATION_CLIENT(p_location_client) = 5;
         listeModeles GET_MODELES() = 6;
-        int SET_LOCATION_MODELE(int) = 7; 
+        int SET_LOCATION_MODELE(p_location_modele) = 7; 
         listeModelesParams GET_MODELE_PARAMS(int) = 8;
         int SET_LOCATION_MODELE_PARAMS(p_location_params_modele) = 9; 
         listeAssurances GET_ASSURANCES() = 10;
