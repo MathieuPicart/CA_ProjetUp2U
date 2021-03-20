@@ -6,6 +6,7 @@
 
 #include "up2UService.h"
 
+
 s_client liste_clients[10];
 int nb_clients = 0;
 
@@ -74,12 +75,18 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 
 	nb_assurances = 2;		
 
+	printf("Initialisation du serveur terminée\n");
+
 	return (void *) &result;
 }
 
 int *
 create_client_1_svc(p_create_client *client, struct svc_req *rqstp)
 {
+	static int result = 1;
+
+	printf("Debut Creation Client\n");
+
 	s_client newClient;
 
 	newClient.id = nb_clients;
@@ -96,12 +103,20 @@ create_client_1_svc(p_create_client *client, struct svc_req *rqstp)
     liste_clients[nb_clients] = newClient;
     nb_clients++;
 
-	return 0;
+	printf("Client créé et ajouté\n");		
+
+	result = 0;
+
+	return &result;
 }
 
 int *
 set_client_1_svc(p_set_client *param, struct svc_req *rqstp)
 {
+	static int result = 1;
+
+	printf("Debut Modification Client\n");
+
 	s_client newClient;
 
 	newClient.id = param->id;
@@ -117,7 +132,11 @@ set_client_1_svc(p_set_client *param, struct svc_req *rqstp)
 	newClient.coord_bc.mois = client.coord_bc.mois;
 	newClient.coord_bc.annee = client.coord_bc.annee;   
 
-	return 0;
+	printf("Client modifié\n");
+	
+	result = 0;
+
+	return &result;
 }
 
 listeClients *
