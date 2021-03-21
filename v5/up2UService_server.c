@@ -6,7 +6,6 @@
 
 #include "up2UService.h"
 
-
 s_client liste_clients[10];
 int nb_clients = 0;
 
@@ -51,16 +50,19 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 	
 	nb_clients = 2;
 
+	liste_modeles[0].id = 0;
 	strcpy(liste_modeles[0].nom, "Samsung S20 FE");
 	strcpy(liste_modeles[0].description, "Au top !");
 	liste_modeles[0].prix_location = 25.34;
 	liste_modeles[0].prix_achat = 659.00;
 	
+	liste_modeles[1].id = 1;
 	strcpy(liste_modeles[1].nom, "Galaxy S20");
 	strcpy(liste_modeles[1].description, "Description...");
 	liste_modeles[1].prix_location = 37.88;
 	liste_modeles[1].prix_achat = 909.00;
 	
+	liste_modeles[2].id = 2;
 	strcpy(liste_modeles[2].nom, "Galaxy S20+");
 	strcpy(liste_modeles[2].description, "Description...");
 	liste_modeles[2].prix_location = 42.04;
@@ -68,13 +70,15 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 
 	nb_modeles = 3;
 
+	liste_assurances[0].id = 0;
 	strcpy(liste_assurances[0].titre, "Samsung Care+ Paiement Unique");
 	strcpy(liste_assurances[0].description, "Description");
 	liste_assurances[0].prix = 89.00;
 
-	strcpy(liste_assurances[0].titre, "Samsung Care+ Souscription");
-	strcpy(liste_assurances[0].description, "Description");
-	liste_assurances[0].prix = 4.99;
+	liste_assurances[1].id = 1;
+	strcpy(liste_assurances[1].titre, "Samsung Care+ Souscription");
+	strcpy(liste_assurances[1].description, "Description");
+	liste_assurances[1].prix = 4.99;
 
 	nb_assurances = 2;		
 
@@ -86,12 +90,17 @@ init_1_svc(void *argp, struct svc_req *rqstp)
 int *
 create_client_1_svc(p_create_client *client, struct svc_req *rqstp)
 {
-	static int result = 1;
+	static int result = -1;
 
 	printf("Debut Creation Client\n");
 
 	s_client newClient;
 
+	if (nb_clients > 10)
+	{
+		return &result;
+	}
+	
 	newClient.id = nb_clients;
 	strcpy(newClient.prenom, client->prenom);
     strcpy(newClient.nom, client->nom);
@@ -116,11 +125,16 @@ create_client_1_svc(p_create_client *client, struct svc_req *rqstp)
 int *
 set_client_1_svc(p_set_client *param, struct svc_req *rqstp)
 {
-	static int result = 1;
+	static int result = -1;
 
 	printf("Debut Modification Client\n");
 
 	s_client newClient;
+
+	if (param->id < 0 || param->id > nb_clients)
+	{
+		return &result;
+	}
 
 	newClient.id = param->id;
 	s_client client = liste_clients[param->id];
@@ -165,14 +179,21 @@ set_location_client_1_svc(p_location_client *argp, struct svc_req *rqstp)
 {
 	printf("Debut set_location_client\n");
 
-	static int result;
+	static int result = -1;
 
+	if (argp->id_location < 0 || argp->id_location > nb_locations || argp->id_client < 0 || argp->id_client > nb_clients)
+	{
+		return &result;
+	}
+	
 	liste_locations[nb_locations].id = nb_locations;
 	liste_locations[nb_locations].id_client = argp->id_client;
 	
 	nb_locations++;
 
 	printf("Fin set_location_client\n");
+
+	result = 0;
 
 	return &result;
 }
@@ -182,15 +203,13 @@ get_modeles_1_svc(void *argp, struct svc_req *rqstp)
 {
 	printf("Debut get_modeles\n");
 
-	static listeModeles  result;
-
-	int i = 0;
-	for(i = 0; i < nb_modeles; i++){
+	static listeModeles result;
+	
+	for(int i = 0; i < nb_modeles; i++) 
+	{
 		result.modeles[i] = liste_modeles[i];
 	}
-	result.nb_modeles = i;
-
-	printf("Fin get_modeles\n");
+	result.nb_modeles = nb_modeles;
 
 	return &result;
 }
@@ -200,11 +219,18 @@ set_location_modele_1_svc(p_location_modele *argp, struct svc_req *rqstp)
 {
 	printf("Debut set_location_modele\n");
 
-	static int result;
+	static int result = -1;
 
-	liste_locations[*argp->id_location].id_modele = *argp->id_modele;
+	if (argp->id_location < 0 || argp->id_location > nb_locations || argp->id_modele < 0 || argp->id_modele > nb_modeles)
+	{
+		return &result;
+	}
+	
+	liste_locations[argp->id_location].id_modele = argp->id_modele;
 
 	printf("Fin set_location_modele\n");
+
+	result = 0;
 
 	return &result;
 }
@@ -214,9 +240,9 @@ get_modele_params_1_svc(int *argp, struct svc_req *rqstp)
 {
 	printf("Debut get_modele_params\n");
 
-	static listeModelesParams  result;
-	// Changer type return & retourner les tableaux les params en brut methode 
-	
+	static listeModelesParams result;
+
+
 	
 	printf("Fin get_modele_params\n");
 
@@ -228,11 +254,18 @@ set_location_modele_params_1_svc(p_location_params_modele *argp, struct svc_req 
 {
 	printf("Debut set_location_modele_params\n");
 
-	static int result;
+	static int result = -1;
 
-	liste_locations[*argp->id_location].params_modele = *argp->params_modele;
+	if (argp->id_location < 0 || argp->id_location > nb_locations || argp->params_modele != NULL)
+	{
+		return &result;
+	}
+
+	liste_locations[argp->id_location].params_modele = argp->params_modele;
 
 	printf("Fin set_location_modele_params\n");
+
+	result = 0;
 
 	return &result;
 }
@@ -242,15 +275,16 @@ get_assurances_1_svc(void *argp, struct svc_req *rqstp)
 {
 	printf("Debut get_assurances\n");
 
-	static listeAssurances  result;
+	static listeAssurances result;
 
-	int i = 0;
-	for(i = 0; i < nb_assurances; i++){
+	for(int i = 0; i < nb_assurances; i++){
 		result.assurances[i] = liste_assurances[i];
 	}
-	result.nb_assurances = i;
+	result.nb_assurances = nb_assurances;
 
-	printf("Fin get_assurances\n");		
+	printf("Fin get_assurances\n");	
+
+	return &result;
 }
 
 int *
@@ -258,11 +292,18 @@ set_location_assurance_1_svc(p_location_assurance *argp, struct svc_req *rqstp)
 {
 	printf("Debut set_location_assurance\n");
 
-	static int result;
+	static int result = -1;
+
+	if (argp->id_location < 0 || argp->id_location > nb_locations || argp->id_assurance < 0 || argp->id_assurance > nb_assurances)
+	{
+		return &result;
+	}
 
 	liste_locations[argp->id_location].id_assurance = argp->id_assurance;
 	
 	printf("Fin set_location_assurance\n");
+
+	result = 0;
 
 	return &result;
 }
@@ -272,11 +313,18 @@ set_location_date_1_svc(p_location_date *argp, struct svc_req *rqstp)
 {
 	printf("Debut set_location_date\n");
 
-	static int result;
+	static int result = -1;
+
+	if (argp->id_location < 0 || argp->id_location > nb_locations || argp->date_livraison != NULL)
+	{
+		return &result;
+	}
 
 	liste_locations[argp->id_location].date_livraison = argp->date_livraison;
 	
 	printf("Fin set_location_date\n");
+
+	result = 0;
 
 	return &result;
 }
@@ -286,11 +334,18 @@ confirmer_location_1_svc(int *argp, struct svc_req *rqstp)
 {
 	printf("Debut confirmer_location\n");
 
-	static int result;
+	static int result = -1;
+
+	if (argp < 0 || argp > nb_locations)
+	{
+		return &result;
+	}
 
 	liste_locations[*argp].confirme = 0;
 	
 	printf("Fin confirmer_location\n");
+
+	result = 0;
 
 	return &result;
 }

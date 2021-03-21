@@ -256,34 +256,31 @@ xdr_s_location (XDR *xdrs, s_location *objp)
 
 
 	if (xdrs->x_op == XDR_ENCODE) {
-		buf = XDR_INLINE (xdrs, 6 * BYTES_PER_XDR_UNIT);
+		buf = XDR_INLINE (xdrs, 3 * BYTES_PER_XDR_UNIT);
 		if (buf == NULL) {
 			 if (!xdr_int (xdrs, &objp->id))
 				 return FALSE;
 			 if (!xdr_int (xdrs, &objp->id_client))
 				 return FALSE;
 			 if (!xdr_int (xdrs, &objp->id_modele))
-				 return FALSE;
-			 if (!xdr_int (xdrs, &objp->id_params_modele))
-				 return FALSE;
-			 if (!xdr_int (xdrs, &objp->id_assurance))
-				 return FALSE;
-			 if (!xdr_int (xdrs, &objp->confirme))
 				 return FALSE;
 
 		} else {
 		IXDR_PUT_LONG(buf, objp->id);
 		IXDR_PUT_LONG(buf, objp->id_client);
 		IXDR_PUT_LONG(buf, objp->id_modele);
-		IXDR_PUT_LONG(buf, objp->id_params_modele);
-		IXDR_PUT_LONG(buf, objp->id_assurance);
-		IXDR_PUT_LONG(buf, objp->confirme);
 		}
+		 if (!xdr_s_params_modele (xdrs, &objp->params_modele))
+			 return FALSE;
+		 if (!xdr_int (xdrs, &objp->id_assurance))
+			 return FALSE;
+		 if (!xdr_int (xdrs, &objp->confirme))
+			 return FALSE;
 		 if (!xdr_s_date (xdrs, &objp->date_livraison))
 			 return FALSE;
 		return TRUE;
 	} else if (xdrs->x_op == XDR_DECODE) {
-		buf = XDR_INLINE (xdrs, 6 * BYTES_PER_XDR_UNIT);
+		buf = XDR_INLINE (xdrs, 3 * BYTES_PER_XDR_UNIT);
 		if (buf == NULL) {
 			 if (!xdr_int (xdrs, &objp->id))
 				 return FALSE;
@@ -291,21 +288,18 @@ xdr_s_location (XDR *xdrs, s_location *objp)
 				 return FALSE;
 			 if (!xdr_int (xdrs, &objp->id_modele))
 				 return FALSE;
-			 if (!xdr_int (xdrs, &objp->id_params_modele))
-				 return FALSE;
-			 if (!xdr_int (xdrs, &objp->id_assurance))
-				 return FALSE;
-			 if (!xdr_int (xdrs, &objp->confirme))
-				 return FALSE;
 
 		} else {
 		objp->id = IXDR_GET_LONG(buf);
 		objp->id_client = IXDR_GET_LONG(buf);
 		objp->id_modele = IXDR_GET_LONG(buf);
-		objp->id_params_modele = IXDR_GET_LONG(buf);
-		objp->id_assurance = IXDR_GET_LONG(buf);
-		objp->confirme = IXDR_GET_LONG(buf);
 		}
+		 if (!xdr_s_params_modele (xdrs, &objp->params_modele))
+			 return FALSE;
+		 if (!xdr_int (xdrs, &objp->id_assurance))
+			 return FALSE;
+		 if (!xdr_int (xdrs, &objp->confirme))
+			 return FALSE;
 		 if (!xdr_s_date (xdrs, &objp->date_livraison))
 			 return FALSE;
 	 return TRUE;
@@ -317,7 +311,7 @@ xdr_s_location (XDR *xdrs, s_location *objp)
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->id_modele))
 		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->id_params_modele))
+	 if (!xdr_s_params_modele (xdrs, &objp->params_modele))
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->id_assurance))
 		 return FALSE;

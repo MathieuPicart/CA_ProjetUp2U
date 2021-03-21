@@ -110,7 +110,7 @@ struct s_location {
 	int id;
 	int id_client;
 	int id_modele;
-	int id_params_modele;
+	s_params_modele params_modele;
 	int id_assurance;
 	int confirme;
 	s_date date_livraison;
